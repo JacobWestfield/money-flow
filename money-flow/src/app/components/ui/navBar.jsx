@@ -6,13 +6,17 @@ const NavBar = () => {
             <div className="container mb-5">
                 <ul className="nav">
                     <li className="nav-item">
-                        <Link className="nav-link " aria-current="page" to="/">
+                        <Link
+                            className="nav-link link-warning"
+                            aria-current="page"
+                            to="/"
+                        >
                             Main
                         </Link>
                     </li>
                     <li className="nav-item">
                         <Link
-                            className="nav-link "
+                            className="nav-link link-warning"
                             aria-current="page"
                             to="/login"
                         >
@@ -21,25 +25,25 @@ const NavBar = () => {
                     </li>
                     <li className="nav-item">
                         <Link
-                            className="nav-link "
+                            className="nav-link link-warning"
                             aria-current="page"
-                            to="/operation"
+                            to="/operation/createoperation"
                         >
                             New Operation / Edit Operation
                         </Link>
                     </li>
                     <li className="nav-item">
                         <Link
-                            className="nav-link "
+                            className="nav-link link-warning"
                             aria-current="page"
-                            to="/category"
+                            to="/category/createcategory"
                         >
                             New Category / Edit Category
                         </Link>
                     </li>
                     <li className="nav-item">
                         <Link
-                            className="nav-link "
+                            className="nav-link link-warning"
                             aria-current="page"
                             to="/bill/createbill"
                         >
@@ -48,7 +52,7 @@ const NavBar = () => {
                     </li>
                     <li className="nav-item">
                         <Link
-                            className="nav-link "
+                            className="nav-link link-warning"
                             aria-current="page"
                             to="/history"
                         >
@@ -57,7 +61,7 @@ const NavBar = () => {
                     </li>
                     <li className="nav-item">
                         <Link
-                            className="nav-link "
+                            className="nav-link link-warning"
                             aria-current="page"
                             to="/settings"
                         >

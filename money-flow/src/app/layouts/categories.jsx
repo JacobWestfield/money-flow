@@ -22,7 +22,7 @@ const Categories = () => {
                             <h3 className="mb-4">Редактирование категории</h3>
                             <EditCategoryForm />
                             <p>
-                                Хотите редактировать уже существующую категорию?{" "}
+                                Хотите создать новую категорию?{" "}
                                 <a role="button" onClick={toggleFormType}>
                                     {" "}
                                     Переходите по этой ссылке
@@ -34,7 +34,7 @@ const Categories = () => {
                             <h3 className="mb-4">Создание категории</h3>
                             <NewCategoryForm />
                             <p>
-                                Хотите создать новую категорию?{" "}
+                                Хотите редактировать уже существующую категорию?{" "}
                                 <a role="button" onClick={toggleFormType}>
                                     {" "}
                                     Переходите по этой ссылке

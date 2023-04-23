@@ -3,21 +3,20 @@ import { validator } from "../../../utils/validator";
 import TextField from "./textField";
 import SelectField from "./selectField";
 
-const EditCategoryForm = () => {
+const EditOperationForm = () => {
     const [data, setData] = useState({
-        name: "",
+        bill: "",
+        category: "",
         type: "",
-        selectedCateogry: ""
+        value: "",
+        commentary: ""
     });
-    // поменять мок дату на бэк
     const types = [
         { value: "Income", label: "Доход" },
         { value: "Outcome", label: "Расход" }
     ];
-    const existingCategories = [
-        { value: "Income", label: "Работа" },
-        { value: "Outcome", label: "Покупки в магазине" }
-    ];
+    const categories = [{ label: "Работа" }];
+    const bills = [{ label: "Долларовый счет", value: "Dollar" }];
     const [errors, setErrors] = useState({});
     const handleChange = (target) => {
         setData((prevState) => ({
@@ -37,12 +36,7 @@ const EditCategoryForm = () => {
         },
         type: {
             isRequired: {
-                message: "Выбор обязателен"
-            }
-        },
-        selectedCategory: {
-            isRequired: {
-                message: "Выбор обязателен"
+                message: "Поле обязательно для заполнения"
             }
         }
     };
@@ -66,27 +60,42 @@ const EditCategoryForm = () => {
         <>
             <form onSubmit={handleSubmit}>
                 <SelectField
-                    label="Выберите категорию, которую хотите изменить"
-                    name="selectedCategory"
+                    label="Выберите счёт"
+                    name="bill"
                     defaultOption=""
-                    options={existingCategories}
+                    options={bills}
                     onChange={handleChange}
-                    error={errors.selectedCategory}
-                />
-                <TextField
-                    label="Новое название категории"
-                    name="name"
-                    value={data.name}
-                    onChange={handleChange}
-                    error={errors.name}
+                    error={errors.bill}
                 />
                 <SelectField
-                    label="Выберите тип категории"
+                    label="Выберите категорию"
+                    name="category"
+                    defaultOption=""
+                    options={categories}
+                    onChange={handleChange}
+                    error={errors.category}
+                />
+                <SelectField
+                    label="Выберите тип операции"
                     name="type"
                     defaultOption=""
                     options={types}
                     onChange={handleChange}
                     error={errors.type}
+                />
+                <TextField
+                    label="Введите сумму"
+                    name="name"
+                    value={data.value}
+                    onChange={handleChange}
+                    error={errors.value}
+                />
+                <TextField
+                    label="Добавьте комментарий"
+                    name="name"
+                    value={data.commentary}
+                    onChange={handleChange}
+                    error={errors.commentary}
                 />
                 <button
                     className="btn btn-primary w-100 mx-auto mb-4"
@@ -100,4 +109,4 @@ const EditCategoryForm = () => {
     );
 };
 
-export default EditCategoryForm;
+export default EditOperationForm;
