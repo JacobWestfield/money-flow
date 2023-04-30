@@ -2,22 +2,35 @@ import React, { useState, useEffect } from "react";
 import { validator } from "../../../utils/validator";
 import TextField from "./textField";
 import SelectField from "./selectField";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    deleteCategory,
+    loadCategories,
+    updateCategory
+} from "../../../redux/reducers/categoriesReducer";
+import { toast } from "react-toastify";
 
 const EditCategoryForm = () => {
+    const dispatch = useDispatch();
+    const categories = useSelector((state) => state.category.entities);
+    const categoriesLoading = useSelector((state) => state.category.loading);
     const [data, setData] = useState({
         name: "",
         type: "",
-        selectedCateogry: ""
+        _id: ""
     });
-    // поменять мок дату на бэк
+    useEffect(() => {
+        dispatch(loadCategories());
+    }, []);
+
     const types = [
         { value: "Income", label: "Доход" },
         { value: "Outcome", label: "Расход" }
     ];
-    const existingCategories = [
-        { value: "Income", label: "Работа" },
-        { value: "Outcome", label: "Покупки в магазине" }
-    ];
+    const existingCategories = categories.map((category) => ({
+        label: category.name,
+        value: category._id
+    }));
     const [errors, setErrors] = useState({});
     const handleChange = (target) => {
         setData((prevState) => ({
@@ -40,9 +53,9 @@ const EditCategoryForm = () => {
                 message: "Выбор обязателен"
             }
         },
-        selectedCategory: {
+        _id: {
             isRequired: {
-                message: "Выбор обязателен"
+                message: "Поле обязательно для заполнения"
             }
         }
     };
@@ -56,22 +69,36 @@ const EditCategoryForm = () => {
     };
     const isValid = Object.keys(errors).length === 0;
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
         console.log(data);
+        dispatch(updateCategory(data));
     };
+
+    const handleDelete = (id) => {
+        if (errors._id) {
+            toast("Choose category");
+            return;
+        }
+        dispatch(deleteCategory(id));
+    };
+
+    if (categoriesLoading) {
+        return <h1>Loading ...</h1>;
+    }
+
     return (
         <>
             <form onSubmit={handleSubmit}>
                 <SelectField
                     label="Выберите категорию, которую хотите изменить"
-                    name="selectedCategory"
+                    name="_id"
                     defaultOption=""
                     options={existingCategories}
                     onChange={handleChange}
-                    error={errors.selectedCategory}
+                    error={errors._id}
                 />
                 <TextField
                     label="Новое название категории"
@@ -96,6 +123,13 @@ const EditCategoryForm = () => {
                     Submit
                 </button>
             </form>
+            <button
+                onClick={() => handleDelete(data._id)}
+                className="btn btn-danger w-100 mx-auto"
+                type="submit"
+            >
+                Delete
+            </button>
         </>
     );
 };

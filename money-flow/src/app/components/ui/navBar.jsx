@@ -23,7 +23,8 @@ const NavBar = () => {
                             Login
                         </Link>
                     </li>
-                    <li className="nav-item">
+
+                    {/* <li className="nav-item">
                         <Link
                             className="nav-link link-warning"
                             aria-current="page"
@@ -49,7 +50,7 @@ const NavBar = () => {
                         >
                             New Bill / Edit Bill
                         </Link>
-                    </li>
+                    </li> */}
                     <li className="nav-item">
                         <Link
                             className="nav-link link-warning"
@@ -57,15 +58,6 @@ const NavBar = () => {
                             to="/history"
                         >
                             History
-                        </Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link
-                            className="nav-link link-warning"
-                            aria-current="page"
-                            to="/settings"
-                        >
-                            Settings
                         </Link>
                     </li>
                 </ul>

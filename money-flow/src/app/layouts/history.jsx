@@ -1,10 +1,25 @@
 import React from "react";
+import OperationsListPage from "../components/common/historyPage/operationsListPage";
+import { Link } from "react-router-dom";
 
 const History = () => {
     return (
         <>
-            <div className="container col-md-10 offset-md-1 shadow p-4">
-                <h1>History</h1>
+            <div className="container col-md-10 offset-md-1 shadow p-4 d-flex flex-column">
+                <div className="d-flex justify-content-between">
+                    <div>
+                        <h1>История операций</h1>
+                    </div>
+                    <div>
+                        <Link to="/operation/createoperation">
+                            <button className="btn btn-primary mb-4">
+                                Создать новую операцию
+                            </button>
+                        </Link>
+                    </div>
+                </div>
+
+                <OperationsListPage />
             </div>
         </>
     );

@@ -2,39 +2,82 @@ import React, { useState, useEffect } from "react";
 import { validator } from "../../../utils/validator";
 import TextField from "./textField";
 import SelectField from "./selectField";
+import { useDispatch, useSelector } from "react-redux";
+import { loadBills } from "../../../redux/reducers/billsReducer";
+import { loadCategories } from "../../../redux/reducers/categoriesReducer";
+import {
+    updateOperation,
+    loadOperations,
+    deleteOperation
+} from "../../../redux/reducers/operationsReducer";
+import { toast } from "react-toastify";
 
 const EditOperationForm = () => {
+    const [errors, setErrors] = useState({});
+    const dispatch = useDispatch();
+    const operations = useSelector((state) => state.operation.entities);
+    const bills = useSelector((state) => state.bill.entities);
+    const categories = useSelector((state) => state.category.entities);
+    const operationsLoading = useSelector((state) => state.operation.loading);
+    const billsLoading = useSelector((state) => state.bill.loading);
+    const categoriesLoading = useSelector((state) => state.category.loading);
+    const operationsList = operations.map((operation) => ({
+        label: operation.name,
+        value: operation._id
+    }));
+    const billsList = bills.map((bill) => ({
+        label: bill.name,
+        value: bill._id
+    }));
+    const categoriesList = categories.map((category) => ({
+        label: category.name,
+        value: category._id
+    }));
     const [data, setData] = useState({
         bill: "",
         category: "",
-        type: "",
         value: "",
-        commentary: ""
+        commentary: "",
+        date: "",
+        name: "",
+        _id: ""
     });
-    const types = [
-        { value: "Income", label: "Доход" },
-        { value: "Outcome", label: "Расход" }
-    ];
-    const categories = [{ label: "Работа" }];
-    const bills = [{ label: "Долларовый счет", value: "Dollar" }];
-    const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        dispatch(loadBills());
+        dispatch(loadCategories());
+        dispatch(loadOperations());
+    }, []);
+
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
         }));
     };
+
     const validatorConfig = {
         name: {
             isRequired: {
                 message: "Поле обязательно для заполнения"
-            },
-            min: {
-                message: "Название должно состоять хотябы из 3-х символов",
-                value: 3
             }
         },
-        type: {
+        bill: {
+            isRequired: {
+                message: "Поле обязательно для заполнения"
+            }
+        },
+        category: {
+            isRequired: {
+                message: "Поле обязательно для заполнения"
+            }
+        },
+        value: {
+            isRequired: {
+                message: "Поле обязательно для заполнения"
+            }
+        },
+        commentary: {
             isRequired: {
                 message: "Поле обязательно для заполнения"
             }
@@ -50,20 +93,42 @@ const EditOperationForm = () => {
     };
     const isValid = Object.keys(errors).length === 0;
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
         console.log(data);
+        dispatch(updateOperation(data));
     };
+
+    const handleDelete = (id) => {
+        if (errors._id) {
+            toast("Choose operation");
+            return;
+        }
+        dispatch(deleteOperation(id));
+    };
+
+    if (billsLoading || categoriesLoading || operationsLoading) {
+        return <h1>Loading...</h1>;
+    }
+
     return (
         <>
             <form onSubmit={handleSubmit}>
                 <SelectField
+                    label="Выберите операцию"
+                    name="_id"
+                    defaultOption=""
+                    options={operationsList}
+                    onChange={handleChange}
+                    error={errors.operation}
+                />
+                <SelectField
                     label="Выберите счёт"
                     name="bill"
                     defaultOption=""
-                    options={bills}
+                    options={billsList}
                     onChange={handleChange}
                     error={errors.bill}
                 />
@@ -71,28 +136,27 @@ const EditOperationForm = () => {
                     label="Выберите категорию"
                     name="category"
                     defaultOption=""
-                    options={categories}
+                    options={categoriesList}
                     onChange={handleChange}
                     error={errors.category}
                 />
-                <SelectField
-                    label="Выберите тип операции"
-                    name="type"
-                    defaultOption=""
-                    options={types}
+                <TextField
+                    label="Введите название операции"
+                    name="name"
+                    value={data.name}
                     onChange={handleChange}
-                    error={errors.type}
+                    error={errors.name}
                 />
                 <TextField
                     label="Введите сумму"
-                    name="name"
+                    name="value"
                     value={data.value}
                     onChange={handleChange}
                     error={errors.value}
                 />
                 <TextField
                     label="Добавьте комментарий"
-                    name="name"
+                    name="commentary"
                     value={data.commentary}
                     onChange={handleChange}
                     error={errors.commentary}
@@ -105,6 +169,13 @@ const EditOperationForm = () => {
                     Submit
                 </button>
             </form>
+            <button
+                onClick={() => handleDelete(data._id)}
+                className="btn btn-danger w-100 mx-auto"
+                type="submit"
+            >
+                Delete
+            </button>
         </>
     );
 };

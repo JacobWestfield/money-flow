@@ -1,20 +1,40 @@
-import React, { useState, useEffect } from "react";
-import { validator } from "../../../utils/validator";
+import React, { useEffect, useState } from "react";
 import TextField from "./textField";
 import SelectField from "./selectField";
+import { validator } from "../../../utils/validator";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    loadBills,
+    deleteBill,
+    updateBill
+} from "../../../redux/reducers/billsReducer";
+import { toast } from "react-toastify";
 
 const EditBillForm = () => {
+    const dispatch = useDispatch();
+    const bills = useSelector((state) => state.bill.entities);
+    const billsLoading = useSelector((state) => state.bill.loading);
+    const [errors, setErrors] = useState({});
+    const billsList = bills.map((bill) => ({
+        label: bill.name,
+        value: bill._id
+    }));
+
+    useEffect(() => {
+        dispatch(loadBills());
+    }, []);
+
     const [data, setData] = useState({
         name: "",
         type: "",
-        selectedBill: ""
+        _id: ""
     });
-    const [errors, setErrors] = useState({});
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
         }));
+        console.log(data);
     };
     const validatorConfig = {
         name: {
@@ -28,14 +48,10 @@ const EditBillForm = () => {
         },
         type: {
             isRequired: {
-                message: "Поле обязательно для заполнения"
-            },
-            min: {
-                message: "Тип счета должен состоять хотябы из 3-х символов",
-                value: 3
+                message: "Выбор обязателен"
             }
         },
-        selectedBill: {
+        _id: {
             isRequired: {
                 message: "Поле обязательно для заполнения"
             }
@@ -51,49 +67,65 @@ const EditBillForm = () => {
     };
     const isValid = Object.keys(errors).length === 0;
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const isValid = validate();
         if (!isValid) return;
         console.log(data);
+        dispatch(updateBill(data));
     };
-    const bills = [
-        { value: "id bill 1", label: "Credit Card" },
-        { value: "id bill 2", label: "Investions" }
-    ];
+
+    if (bills.loading) {
+        return <h1 className="display - 1">Loading...</h1>;
+    }
+
+    const handleDelete = (id) => {
+        if (errors._id) {
+            toast("Choose bill");
+            return;
+        }
+        dispatch(deleteBill(id));
+    };
+
+    if (billsLoading) {
+        return <h1>Loading ...</h1>;
+    }
     return (
         <>
             <form onSubmit={handleSubmit}>
                 <SelectField
                     label="Выберите счет для редактирования"
-                    name="selectedBill"
+                    name="_id"
                     defaultOption=""
-                    options={bills}
+                    options={billsList}
                     onChange={handleChange}
-                    error={errors.selectedBill}
                 />
                 <TextField
                     label="Название счета"
                     name="name"
                     value={data.name}
                     onChange={handleChange}
-                    error={errors.name}
                 />
                 <TextField
                     label="Тип счета (Вклад, дебетовая карта, кредитная карта и т.д."
                     name="type"
                     value={data.type}
                     onChange={handleChange}
-                    error={errors.type}
                 />
                 <button
-                    className="btn btn-primary w-100 mx-auto"
+                    className="btn mb-4 btn-primary w-100 mx-auto"
                     type="submit"
                     disabled={!isValid}
                 >
                     Submit
                 </button>
             </form>
+            <button
+                onClick={() => handleDelete(data._id)}
+                className="btn btn-danger w-100 mx-auto"
+                type="submit"
+            >
+                Delete
+            </button>
         </>
     );
 };

@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { validator } from "../../../utils/validator";
 import TextField from "./textField";
+import { createBill } from "../../../redux/reducers/billsReducer";
+import { useDispatch } from "react-redux";
+import { nanoid } from "@reduxjs/toolkit";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const NewBillForm = () => {
+    const history = useHistory();
+    const dispatch = useDispatch();
     const [data, setData] = useState({
         name: "",
-        type: ""
+        type: "",
+        _id: ""
     });
     const [errors, setErrors] = useState({});
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
+            _id: nanoid(),
             [target.name]: target.value
         }));
     };
@@ -44,11 +52,12 @@ const NewBillForm = () => {
     };
     const isValid = Object.keys(errors).length === 0;
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        console.log(data);
+        dispatch(createBill(data));
+        history.push("/");
     };
     return (
         <>

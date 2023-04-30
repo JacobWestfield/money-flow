@@ -28,7 +28,6 @@ const LoginProvider = ({ children }) => {
             errorCatcher(error);
             const { code, message } = error.response.data.error;
             console.log(code, message);
-            // я тут сделал на всякий случай все варианты ошибок логина которые предоставил firebase docs
             if (code === 400) {
                 if (message === "EMAIL_NOT_FOUND") {
                     const errorObject = {

@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import NavBar from "./components/ui/navBar";
 import LAYOUTS from "./layouts";
+import { useDispatch } from "react-redux";
+import { loadBills } from "./redux/reducers/billsReducer";
+import { loadCategories } from "./redux/reducers/categoriesReducer";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { loadOperations } from "./redux/reducers/operationsReducer";
 
 function App() {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(loadBills());
+        dispatch(loadCategories());
+        dispatch(loadOperations());
+    }, []);
+
     return (
         <div className="App">
+            <ToastContainer />
             <NavBar />
             <Switch>
                 <Route
