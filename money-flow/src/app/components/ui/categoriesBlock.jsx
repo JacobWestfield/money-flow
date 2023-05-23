@@ -15,26 +15,30 @@ const CategoriesBlock = ({ categories }) => {
                         Создать новую категорию
                     </button>
                 </Link>
-                <table className="table table-dark">
-                    <thead>
-                        <tr>
-                            <th scope="col">Название категории</th>
-                            <th scope="col">Тип категории </th>
-                        </tr>
-                        {categories.map((category) => {
-                            return (
-                                <tr key={category._id}>
-                                    <td>{category.name}</td>
-                                    <td>
-                                        {category.type === "Income"
-                                            ? "Доход"
-                                            : "Расход"}
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </thead>
-                </table>
+                {categories.length === 0 ? (
+                    <h1>У вас еще нет категорий</h1>
+                ) : (
+                    <table className="table table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Название категории</th>
+                                <th scope="col">Тип категории </th>
+                            </tr>
+                            {categories.map((category) => {
+                                return (
+                                    <tr key={category._id}>
+                                        <td>{category.name}</td>
+                                        <td>
+                                            {category.type === "Income"
+                                                ? "Доход"
+                                                : "Расход"}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </thead>
+                    </table>
+                )}
             </div>
         </>
     );

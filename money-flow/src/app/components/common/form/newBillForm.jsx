@@ -2,17 +2,20 @@ import React, { useState, useEffect } from "react";
 import { validator } from "../../../utils/validator";
 import TextField from "./textField";
 import { createBill } from "../../../redux/reducers/billsReducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { getCurrentUserId } from "../../../redux/reducers/userReducer";
 
 const NewBillForm = () => {
     const history = useHistory();
     const dispatch = useDispatch();
+    const currentUserId = useSelector(getCurrentUserId());
     const [data, setData] = useState({
         name: "",
         type: "",
-        _id: ""
+        _id: "",
+        userId: currentUserId
     });
     const [errors, setErrors] = useState({});
     const handleChange = (target) => {

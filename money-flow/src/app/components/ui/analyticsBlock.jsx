@@ -50,6 +50,9 @@ const AnalyticsBlock = ({ operations, bills, categories }) => {
         { x: `Расходы: ${outcomeSummary}`, y: outcomeSummary }
     ];
 
+    if (operations.length === 0) {
+        return <h1>У вас еще не было операций</h1>;
+    }
     return (
         <>
             <h1 className="display-5 mb-4 text-center">Статистика операций</h1>

@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/reducers/userReducer";
 
 const LoginForm = () => {
+    const history = useHistory();
+    const dispatch = useDispatch();
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -50,11 +55,16 @@ const LoginForm = () => {
     };
     const isValid = Object.keys(errors).length === 0;
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        console.log(data);
+        const redirect = history.location.state
+            ? history.location.state.from.pathname
+            : "/";
+
+        dispatch(login({ payload: data, redirect }));
+        history.push("/");
     };
     return (
         <form onSubmit={handleSubmit}>

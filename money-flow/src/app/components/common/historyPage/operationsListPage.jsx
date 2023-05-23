@@ -12,16 +12,26 @@ import Pagination from "./pagination";
 import GroupList from "./groupList";
 import getDate from "../../../utils/getDate";
 import { nanoid } from "@reduxjs/toolkit";
+import { getCurrentUserId } from "../../../redux/reducers/userReducer";
 
 const OperationsListPage = () => {
+    const currentUserId = useSelector(getCurrentUserId());
     const dispatch = useDispatch();
     const operations = useSelector((state) => state.operation.entities);
     const bills = useSelector((state) => state.bill.entities);
     const categories = useSelector((state) => state.category.entities);
     const operationsLoading = useSelector((state) => state.operation.loading);
 
+    const filteredBills = bills.filter((bill) => bill.userId === currentUserId);
+    const filteredCategories = categories.filter(
+        (category) => category.userId === currentUserId
+    );
+    const filteredOperationsList = operations.filter(
+        (category) => category.userId === currentUserId
+    );
+
     const dateStamps = operations
-        ? operations.map((el) => getDate(el.date))
+        ? filteredOperationsList.map((el) => getDate(el.date))
         : [];
     function onlyUnique(value, index, array) {
         return array.indexOf(value) === index;
@@ -102,7 +112,7 @@ const OperationsListPage = () => {
             }
             return filteredOperations;
         }
-        const filteredOperations = filterOperations(operations);
+        const filteredOperations = filterOperations(filteredOperationsList);
         const count = filteredOperations.length;
         const sortedOperations = _.orderBy(
             filteredOperations,
@@ -124,7 +134,7 @@ const OperationsListPage = () => {
                             <p className="text-center">По счету</p>
                             <GroupList
                                 selectedItem={selectedBill}
-                                items={bills}
+                                items={filteredBills}
                                 onItemSelect={handleBillSelect}
                             />
                         </div>
@@ -132,7 +142,7 @@ const OperationsListPage = () => {
                             <p className="text-center">По категории</p>
                             <GroupList
                                 selectedItem={selectedCategory}
-                                items={categories}
+                                items={filteredCategories}
                                 onItemSelect={handleCategorySelect}
                             />
                         </div>
@@ -156,13 +166,19 @@ const OperationsListPage = () => {
                     </div>
                 </div>
                 <div className="d-flex flex-column">
-                    {count > 0 && (
-                        <OperationsTable
-                            operations={operationsCrop}
-                            onSort={handleSort}
-                            selectedSort={sortBy}
-                            onDelete={handleDelete}
-                        />
+                    {filteredOperationsList.length === 0 ? (
+                        <h1>У Вас пока еще не было операций. Создайте новую</h1>
+                    ) : filteredOperations.length === 0 ? (
+                        <h1>По заданному фильтру не найдено результатов</h1>
+                    ) : (
+                        count > 0 && (
+                            <OperationsTable
+                                operations={operationsCrop}
+                                onSort={handleSort}
+                                selectedSort={sortBy}
+                                onDelete={handleDelete}
+                            />
+                        )
                     )}
                     <div className="d-flex flex-column">
                         <div className="d-flex justify-content-center">

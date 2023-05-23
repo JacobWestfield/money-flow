@@ -6,11 +6,11 @@ const Bill = ({ operation }) => {
     const bills = useSelector((state) => state.bill.entities);
     const bill = bills.find((bill) => bill._id === operation.bill);
     const loadingBill = useSelector((state) => state.bill.loading);
-    if (bills.length === 0) {
-        return "Нет счетов";
+    if (!bill) {
+        return "Нет счета";
     }
     if (!loadingBill && bills.length) {
-        return <p>{bill.name}</p>;
+        return <p>{bill?.name}</p>;
     } else return "Loading...";
 };
 

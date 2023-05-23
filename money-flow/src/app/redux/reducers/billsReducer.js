@@ -42,7 +42,11 @@ const billSlice = createSlice({
         loadedBill(state, action) {
             state.loading = false;
             state.lastFetch = Date.now();
-            state.entities = action.payload;
+            if (action.payload === null) {
+                state.entities = [];
+            } else {
+                state.entities = action.payload;
+            }
         },
         loadedBillError(state, action) {
             toast("Network Error. Try later");

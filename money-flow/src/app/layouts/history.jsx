@@ -13,7 +13,7 @@ const History = () => {
                     <div>
                         <Link to="/operation/createoperation">
                             <button className="btn btn-primary mb-4">
-                                Создать новую операцию
+                                Создать/изменить операцию
                             </button>
                         </Link>
                     </div>

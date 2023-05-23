@@ -9,13 +9,16 @@ import {
     updateBill
 } from "../../../redux/reducers/billsReducer";
 import { toast } from "react-toastify";
+import { getCurrentUserId } from "../../../redux/reducers/userReducer";
 
 const EditBillForm = () => {
     const dispatch = useDispatch();
     const bills = useSelector((state) => state.bill.entities);
     const billsLoading = useSelector((state) => state.bill.loading);
     const [errors, setErrors] = useState({});
-    const billsList = bills.map((bill) => ({
+    const currentUserId = useSelector(getCurrentUserId());
+    const filteredBills = bills.filter((bill) => bill.userId === currentUserId);
+    const billsList = filteredBills.map((bill) => ({
         label: bill.name,
         value: bill._id
     }));
@@ -27,7 +30,8 @@ const EditBillForm = () => {
     const [data, setData] = useState({
         name: "",
         type: "",
-        _id: ""
+        _id: "",
+        userId: currentUserId
     });
     const handleChange = (target) => {
         setData((prevState) => ({

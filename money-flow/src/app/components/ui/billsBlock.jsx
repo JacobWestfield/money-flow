@@ -15,22 +15,26 @@ const BillsBlock = ({ bills }) => {
                         Создать новый счет
                     </button>
                 </Link>
-                <table className="table table-dark">
-                    <thead>
-                        <tr>
-                            <th scope="col">Название счета</th>
-                            <th scope="col">Тип счета</th>
-                        </tr>
-                        {bills.map((bill) => {
-                            return (
-                                <tr key={bill._id}>
-                                    <td>{bill.name}</td>
-                                    <td>{bill.type}</td>
-                                </tr>
-                            );
-                        })}
-                    </thead>
-                </table>
+                {bills.length === 0 ? (
+                    <h1>У вас еще нет счетов</h1>
+                ) : (
+                    <table className="table table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Название счета</th>
+                                <th scope="col">Тип счета</th>
+                            </tr>
+                            {bills.map((bill) => {
+                                return (
+                                    <tr key={bill._id}>
+                                        <td>{bill.name}</td>
+                                        <td>{bill.type}</td>
+                                    </tr>
+                                );
+                            })}
+                        </thead>
+                    </table>
+                )}
             </div>
         </>
     );

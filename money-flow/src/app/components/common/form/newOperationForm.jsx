@@ -8,8 +8,10 @@ import { nanoid } from "@reduxjs/toolkit";
 import { validator } from "../../../utils/validator";
 import { createOperation } from "../../../redux/reducers/operationsReducer";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { getCurrentUserId } from "../../../redux/reducers/userReducer";
 
 const NewOperationForm = () => {
+    const currentUserId = useSelector(getCurrentUserId());
     const history = useHistory();
     const [errors, setErrors] = useState({});
     const dispatch = useDispatch();
@@ -18,11 +20,16 @@ const NewOperationForm = () => {
     const billsLoading = useSelector((state) => state.bill.loading);
     const categoriesLoading = useSelector((state) => state.category.loading);
 
-    const billsList = bills.map((bill) => ({
+    const filteredBills = bills.filter((bill) => bill.userId === currentUserId);
+    const filteredCategories = categories.filter(
+        (category) => category.userId === currentUserId
+    );
+
+    const billsList = filteredBills.map((bill) => ({
         label: bill.name,
         value: bill._id
     }));
-    const categoriesList = categories.map((category) => ({
+    const categoriesList = filteredCategories.map((category) => ({
         label: category.name,
         value: category._id
     }));
@@ -39,7 +46,8 @@ const NewOperationForm = () => {
         commentary: "",
         _id: "",
         date: "",
-        name: ""
+        name: "",
+        userId: currentUserId
     });
 
     const handleChange = (target) => {

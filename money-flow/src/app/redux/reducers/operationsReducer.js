@@ -39,7 +39,11 @@ const operationSlice = createSlice({
         },
         operationLoaded(state, action) {
             state.loading = false;
-            state.entities = action.payload;
+            if (action.payload === null) {
+                state.entities = [];
+            } else {
+                state.entities = action.payload;
+            }
         },
         operationRequestedError(state, action) {
             state.loading = false;

@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
-import CheckBoxField from "../common/form/checkBoxField";
+import { useDispatch } from "react-redux";
+import { signUp } from "../../redux/reducers/userReducer";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
 const RegisterForm = () => {
+    const history = useHistory();
+    const dispatch = useDispatch();
     const [data, setData] = useState({
         email: "",
         password: "",
-        licence: false
+        name: ""
     });
 
     const [errors, setErrors] = useState({});
@@ -27,6 +31,15 @@ const RegisterForm = () => {
                 message: "Email введен некорректно"
             }
         },
+        name: {
+            isRequired: {
+                message: "Имя обязательно"
+            },
+            min: {
+                message: "Имя должно состоять хотябы из двух букв",
+                value: 2
+            }
+        },
         password: {
             isRequired: {
                 message: "Пароль обязателен для заполнения"
@@ -40,12 +53,6 @@ const RegisterForm = () => {
             min: {
                 message: "Пароль должен состоять минимум из 8 символов",
                 value: 8
-            }
-        },
-        licence: {
-            isRequired: {
-                message:
-                    "Вы не можете использовать наш сервис без подтверждения лицензионного соглашения"
             }
         }
     };
@@ -64,6 +71,8 @@ const RegisterForm = () => {
         const isValid = validate();
         if (!isValid) return;
         console.log(data);
+        dispatch(signUp(data));
+        history.push("/");
     };
 
     return (
@@ -76,6 +85,13 @@ const RegisterForm = () => {
                 error={errors.email}
             />
             <TextField
+                label="Имя"
+                name="name"
+                value={data.name}
+                onChange={handleChange}
+                error={errors.name}
+            />
+            <TextField
                 label="Пароль"
                 type="password"
                 name="password"
@@ -83,14 +99,6 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 error={errors.password}
             />
-            <CheckBoxField
-                value={data.licence}
-                onChange={handleChange}
-                name="licence"
-                error={errors.licence}
-            >
-                Подтвердить <a>лицензионное соглашение</a>
-            </CheckBoxField>
             <button
                 className="btn btn-primary w-100 mx-auto"
                 type="submit"

@@ -2,18 +2,21 @@ import React, { useState, useEffect } from "react";
 import { validator } from "../../../utils/validator";
 import TextField from "./textField";
 import SelectField from "./selectField";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
 import { createCategory } from "../../../redux/reducers/categoriesReducer";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { getCurrentUserId } from "../../../redux/reducers/userReducer";
 
 const NewCategoryForm = () => {
     const history = useHistory();
+    const currentUser = useSelector(getCurrentUserId());
     const dispatch = useDispatch();
     const [data, setData] = useState({
         name: "",
         type: "",
-        _id: ""
+        _id: "",
+        userId: currentUser
     });
 
     const types = [
