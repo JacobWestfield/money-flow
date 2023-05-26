@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/reducers/userReducer";
 
@@ -55,7 +55,7 @@ const LoginForm = () => {
     };
     const isValid = Object.keys(errors).length === 0;
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
@@ -63,7 +63,7 @@ const LoginForm = () => {
             ? history.location.state.from.pathname
             : "/";
 
-        dispatch(login({ payload: data, redirect }));
+        await dispatch(login({ payload: data, redirect }));
         history.push("/");
     };
     return (

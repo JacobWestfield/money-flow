@@ -16,15 +16,19 @@ const NavBar = () => {
         <nav>
             <div className="container mb-5 d-flex justify-content-between">
                 <ul className="nav">
-                    <li className="nav-item">
-                        <Link
-                            className="nav-link link-warning"
-                            aria-current="page"
-                            to="/"
-                        >
-                            Main
-                        </Link>
-                    </li>
+                    {isLoggedIn ? (
+                        <li className="nav-item">
+                            <Link
+                                className="nav-link link-warning"
+                                aria-current="page"
+                                to="/"
+                            >
+                                Main
+                            </Link>
+                        </li>
+                    ) : (
+                        ""
+                    )}
                     {isLoggedIn ? (
                         ""
                     ) : (
@@ -38,16 +42,19 @@ const NavBar = () => {
                             </Link>
                         </li>
                     )}
-
-                    <li className="nav-item">
-                        <Link
-                            className="nav-link link-warning"
-                            aria-current="page"
-                            to="/history"
-                        >
-                            History
-                        </Link>
-                    </li>
+                    {isLoggedIn ? (
+                        <li className="nav-item">
+                            <Link
+                                className="nav-link link-warning"
+                                aria-current="page"
+                                to="/history"
+                            >
+                                History
+                            </Link>
+                        </li>
+                    ) : (
+                        ""
+                    )}
                 </ul>
                 <div className="mt-4">
                     <h5>
@@ -56,7 +63,7 @@ const NavBar = () => {
                             ? "Sign In to use this app"
                             : loadingUsersStatus
                             ? "Loading..."
-                            : user.name}
+                            : user?.name}
                     </h5>
                 </div>
             </div>
