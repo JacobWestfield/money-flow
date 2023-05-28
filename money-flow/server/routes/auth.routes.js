@@ -4,8 +4,8 @@ const { check, validationResult } = require("express-validator");
 const User = require("../models/User");
 const router = express.Router({ mergeParams: true });
 const TokenService = require("../srevices/token.service");
-const tokenService = require("../srevices/token.service");
 
+//Добавил валидацию поля Имя из формы с фронта
 router.post("/signUp", [
   check("email", "Incorrect email").exists().trim().isEmail(),
   check("password", "Password length have to be 8 symbols")
@@ -105,7 +105,7 @@ router.post("/signInWithPassword", [
         });
       }
       const tokens = TokenService.generate({ _id: existingUser._id });
-      await tokenService.save(existingUser._id, tokens.refreshToken);
+      await TokenService.save(existingUser._id, tokens.refreshToken);
 
       res.status(200).send({
         ...tokens,
@@ -119,6 +119,35 @@ router.post("/signInWithPassword", [
   },
 ]);
 
-router.post("/token", (req, res) => {});
+function isTokenInvalid(data, dbToken) {
+  return !data || !dbToken || data._id !== dbToken?.user?.toString();
+}
+
+router.post("/token", async (req, res) => {
+  try {
+    const { refresh_token: refreshToken } = req.body;
+    const data = TokenService.validateRefreshToken(refreshToken);
+    const dbToken = await TokenService.findToken(refreshToken);
+
+    if (isTokenInvalid(data, dbToken)) {
+      return res.status(401).json({
+        message: "Unauthorized",
+      });
+    }
+
+    const tokens = await TokenService.generate({
+      _id: dbToken.user.toString(),
+    });
+    await TokenService.save({
+      _id: data._id,
+    });
+
+    res.status(200).send({ ...tokens, userId: data._id });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error occured. Try later",
+    });
+  }
+});
 
 module.exports = router;
