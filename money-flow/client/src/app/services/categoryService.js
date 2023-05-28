@@ -8,14 +8,14 @@ const categoryService = {
         return data;
     },
     update: async (payload) => {
-        const { data } = await httpService.put(
+        const { data } = await httpService.patch(
             categoryEndpoint + payload._id,
             payload
         );
         return data;
     },
     create: async (payload) => {
-        const { data } = await httpService.put(
+        const { data } = await httpService.post(
             categoryEndpoint + payload._id,
             payload
         );

@@ -1,8 +1,103 @@
 const express = require("express");
+const { check, validationResult } = require("express-validator");
 const Bill = require("../models/Bill");
 const router = express.Router({ mergeParams: true });
+const authMiddleware = require("../middlewares/auth.middleware");
 
-router.get("/", async (req, res) => {
+router.delete("/:billId", authMiddleware, async (req, res) => {
+  try {
+    const { billId } = req.params;
+    const user = await req.user;
+    const bill = await Bill.findById(billId);
+    if (bill.userId.toString() === user._id) {
+      const deletedBill = await Bill.deleteOne({ _id: billId });
+      res.status(200).send(deletedBill);
+    } else {
+      res.status(401).send({
+        message: "Unauthorized",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error occured. Try later",
+    });
+  }
+});
+
+router.post("/createBill", authMiddleware, [
+  check("name", "Name is required").trim().exists(),
+  check("type", "Type is required").trim().exists(),
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          error: {
+            message: "INVALID_DATA",
+            code: 400,
+            errors: errors.array(),
+          },
+        });
+      }
+
+      const user = await req.user;
+      const { name, type } = req.body;
+
+      const newBill = await Bill.create({
+        type: type,
+        name: name,
+        userId: user._id,
+      });
+
+      res.status(201).send({
+        newBill,
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: "Server error occured. Try later",
+      });
+    }
+  },
+]);
+
+router.patch("/:billId", authMiddleware, [
+  check("name", "Name is required").trim().exists(),
+  check("type", "Type is required").trim().exists(),
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          error: {
+            message: "INVALID_DATA",
+            code: 400,
+            errors: errors.array(),
+          },
+        });
+      }
+
+      const { billId } = req.params;
+      const user = await req.user;
+      const bill = await Bill.findById(billId);
+      if (bill.userId.toString() === user._id) {
+        const updatedBill = await Bill.findByIdAndUpdate(billId, req.body, {
+          new: true,
+        });
+        res.status(200).send(updatedBill);
+      } else {
+        res.status(401).send({
+          message: "Unauthorized",
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: "Server error occured. Try later",
+      });
+    }
+  },
+]);
+
+router.get("/", authMiddleware, async (req, res) => {
   try {
     const bills = await Bill.find();
     res.send(bills);

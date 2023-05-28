@@ -8,14 +8,14 @@ const billService = {
         return data;
     },
     update: async (payload) => {
-        const { data } = await httpService.put(
+        const { data } = await httpService.patch(
             billEndpoint + payload._id,
             payload
         );
         return data;
     },
     create: async (payload) => {
-        const { data } = await httpService.put(
+        const { data } = await httpService.post(
             billEndpoint + payload._id,
             payload
         );

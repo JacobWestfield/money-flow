@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const { check, validationResult } = require("express-validator");
 const User = require("../models/User");
 const router = express.Router({ mergeParams: true });
-const TokenService = require("../srevices/token.service");
+const TokenService = require("../services/token.service");
 
 //Добавил валидацию поля Имя из формы с фронта
 router.post("/signUp", [
@@ -46,7 +46,7 @@ router.post("/signUp", [
         name: name,
       });
       const tokens = TokenService.generate({ _id: newUser._id });
-      await tokenService.save(newUser._id, tokens.refreshToken);
+      await TokenService.save(newUser._id, tokens.refreshToken);
 
       res.status(201).send({
         ...tokens,
