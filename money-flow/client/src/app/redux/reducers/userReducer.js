@@ -114,17 +114,18 @@ export const login =
     };
 
 export const signUp =
-    ({ email, password, ...rest }) =>
+    ({ email, password, name, ...rest }) =>
     async (dispatch) => {
         dispatch(authRequested());
         try {
-            const data = await authService.register({ email, password });
+            const data = await authService.register({ email, password, name });
             localStorageService.setTokens(data);
             dispatch(authRequestSuccess({ userId: data.localId }));
             dispatch(
                 createUser({
                     _id: data.localId,
                     email,
+                    name,
                     ...rest
                 })
             );
