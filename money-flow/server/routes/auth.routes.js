@@ -5,7 +5,6 @@ const User = require("../models/User");
 const router = express.Router({ mergeParams: true });
 const TokenService = require("../services/token.service");
 
-//Добавил валидацию поля Имя из формы с фронта
 router.post("/signUp", [
   check("email", "Incorrect email").exists().trim().isEmail(),
   check("password", "Password length have to be 8 symbols")

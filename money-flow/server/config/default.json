@@ -1,8 +1,6 @@
 {
   "port": 8080,
   "mongoUri": "mongodb+srv://zzultekk:66CLMdNfS4XUWUlx@cluster0.zebtxfa.mongodb.net/MoneyFlow",
-  "username": "zzultekk",
-  "password": "66CLMdNfS4XUWUlx",
   "accessKey": "Money Flow Access Token",
   "refreshKey": "Money Flow Refresh Token"
 }
