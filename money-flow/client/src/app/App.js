@@ -3,21 +3,13 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import NavBar from "./components/ui/navBar";
 import LAYOUTS from "./layouts";
 import { useDispatch } from "react-redux";
-import { loadBills } from "./redux/reducers/billsReducer";
-import { loadCategories } from "./redux/reducers/categoriesReducer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { loadOperations } from "./redux/reducers/operationsReducer";
-import { loadUsersList } from "./redux/reducers/userReducer";
 import ProtectedRoute from "./components/common/protectedRoute";
-
+import { loadUsersList } from "./redux/reducers/userReducer";
 function App() {
     const dispatch = useDispatch();
-
     useEffect(() => {
-        dispatch(loadBills());
-        dispatch(loadCategories());
-        dispatch(loadOperations());
         dispatch(loadUsersList());
     }, []);
 

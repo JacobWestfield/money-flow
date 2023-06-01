@@ -16,13 +16,13 @@ const categoryService = {
     },
     create: async (payload) => {
         const { data } = await httpService.post(
-            categoryEndpoint + payload._id,
+            categoryEndpoint + "createCategory",
             payload
         );
         return data;
     },
     delete: async (payload) => {
-        const data = await httpService.delete(categoryEndpoint + payload);
+        const { data } = await httpService.delete(categoryEndpoint + payload);
         return data;
     }
 };

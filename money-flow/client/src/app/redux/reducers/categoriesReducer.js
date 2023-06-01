@@ -70,8 +70,8 @@ export const loadCategories = () => async (dispatch, getState) => {
     if (isOutdated(lastFetch)) {
         dispatch(categoryRequested());
         try {
-            const { content } = await categoryService.get();
-            dispatch(categoryLoaded(content));
+            const { data } = await categoryService.get();
+            dispatch(categoryLoaded(data));
         } catch (error) {
             dispatch(categoryRequestedError(error.message));
         }

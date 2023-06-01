@@ -100,13 +100,13 @@ const userCreateRequested = createAction("users/userCreateRequested");
 const createUserFailed = createAction("users/createUserFailed");
 
 export const login =
-    ({ payload, redirect }) =>
+    ({ payload }) =>
     async (dispatch) => {
         const { email, password } = payload;
         dispatch(authRequested());
         try {
             const data = await authService.login({ email, password });
-            dispatch(authRequestSuccess({ userId: data.localId }));
+            dispatch(authRequestSuccess({ userId: data.userId }));
             localStorageService.setTokens(data);
         } catch (error) {
             dispatch(authRequestFailed(error.message));
@@ -120,7 +120,7 @@ export const signUp =
         try {
             const data = await authService.register({ email, password, name });
             localStorageService.setTokens(data);
-            dispatch(authRequestSuccess({ userId: data.localId }));
+            dispatch(authRequestSuccess({ userId: data.userId }));
             dispatch(
                 createUser({
                     _id: data.localId,
@@ -153,8 +153,9 @@ function createUser(payload) {
 export const loadUsersList = () => async (dispatch, getState) => {
     dispatch(usersRequested());
     try {
-        const { content } = await userService.get();
-        dispatch(usersReceived(content));
+        const data = await userService.get();
+        console.log(data);
+        dispatch(usersReceived(data));
     } catch (error) {
         dispatch(usersRequestFailed(error.message));
     }
@@ -162,7 +163,6 @@ export const loadUsersList = () => async (dispatch, getState) => {
 
 export const getUsersList = () => (state) => state.user.entities;
 export const getCurrentUserData = () => (state) => {
-    console.log("user");
     return state.user.entities
         ? state.user.entities.find((u) => u._id === state.user.auth.userId)
         : {};

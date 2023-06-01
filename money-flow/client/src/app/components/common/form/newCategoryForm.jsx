@@ -2,21 +2,14 @@ import React, { useState, useEffect } from "react";
 import { validator } from "../../../utils/validator";
 import TextField from "./textField";
 import SelectField from "./selectField";
-import { useDispatch, useSelector } from "react-redux";
-import { nanoid } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 import { createCategory } from "../../../redux/reducers/categoriesReducer";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { getCurrentUserId } from "../../../redux/reducers/userReducer";
 
 const NewCategoryForm = () => {
-    const history = useHistory();
-    const currentUser = useSelector(getCurrentUserId());
     const dispatch = useDispatch();
     const [data, setData] = useState({
         name: "",
-        type: "",
-        _id: "",
-        userId: currentUser
+        type: ""
     });
 
     const types = [
@@ -27,7 +20,6 @@ const NewCategoryForm = () => {
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
-            _id: nanoid(),
             [target.name]: target.value
         }));
     };
@@ -62,7 +54,6 @@ const NewCategoryForm = () => {
         const isValid = validate();
         if (!isValid) return;
         dispatch(createCategory(data));
-        history.push("/");
     };
     return (
         <>

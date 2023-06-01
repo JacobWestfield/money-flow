@@ -10,7 +10,7 @@ const userService = {
     },
     create: async (payload) => {
         const { data } = await httpService.put(
-            userEndpoint + payload._id,
+            userEndpoint + "createUser",
             payload
         );
         return data;

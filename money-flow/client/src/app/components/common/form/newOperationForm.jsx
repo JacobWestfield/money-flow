@@ -4,14 +4,11 @@ import SelectField from "./selectField";
 import { useDispatch, useSelector } from "react-redux";
 import { loadBills } from "../../../redux/reducers/billsReducer";
 import { loadCategories } from "../../../redux/reducers/categoriesReducer";
-import { nanoid } from "@reduxjs/toolkit";
 import { validator } from "../../../utils/validator";
 import { createOperation } from "../../../redux/reducers/operationsReducer";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { getCurrentUserId } from "../../../redux/reducers/userReducer";
+import { useHistory } from "react-router-dom";
 
 const NewOperationForm = () => {
-    const currentUserId = useSelector(getCurrentUserId());
     const history = useHistory();
     const [errors, setErrors] = useState({});
     const dispatch = useDispatch();
@@ -20,16 +17,11 @@ const NewOperationForm = () => {
     const billsLoading = useSelector((state) => state.bill.loading);
     const categoriesLoading = useSelector((state) => state.category.loading);
 
-    const filteredBills = bills.filter((bill) => bill.userId === currentUserId);
-    const filteredCategories = categories.filter(
-        (category) => category.userId === currentUserId
-    );
-
-    const billsList = filteredBills.map((bill) => ({
+    const billsList = bills.map((bill) => ({
         label: bill.name,
         value: bill._id
     }));
-    const categoriesList = filteredCategories.map((category) => ({
+    const categoriesList = categories.map((category) => ({
         label: category.name,
         value: category._id
     }));
@@ -44,17 +36,13 @@ const NewOperationForm = () => {
         category: "",
         value: "",
         commentary: "",
-        _id: "",
         date: "",
-        name: "",
-        userId: currentUserId
+        name: ""
     });
 
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
-            _id: nanoid(),
-            date: Date.now(),
             [target.name]: target.value
         }));
     };
@@ -97,12 +85,11 @@ const NewOperationForm = () => {
     };
     const isValid = Object.keys(errors).length === 0;
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        console.log(data);
-        dispatch(createOperation(data));
+        await dispatch(createOperation(data));
         history.push("/history");
     };
 

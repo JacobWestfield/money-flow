@@ -11,10 +11,8 @@ import {
     deleteOperation
 } from "../../../redux/reducers/operationsReducer";
 import { toast } from "react-toastify";
-import { getCurrentUserId } from "../../../redux/reducers/userReducer";
 
 const EditOperationForm = () => {
-    const currentUserId = useSelector(getCurrentUserId());
     const [errors, setErrors] = useState({});
     const dispatch = useDispatch();
     const operations = useSelector((state) => state.operation.entities);
@@ -24,23 +22,15 @@ const EditOperationForm = () => {
     const billsLoading = useSelector((state) => state.bill.loading);
     const categoriesLoading = useSelector((state) => state.category.loading);
 
-    const filteredBills = bills.filter((bill) => bill.userId === currentUserId);
-    const filteredCategories = categories.filter(
-        (category) => category.userId === currentUserId
-    );
-    const filteredOperations = operations.filter(
-        (category) => category.userId === currentUserId
-    );
-
-    const operationsList = filteredOperations.map((operation) => ({
+    const operationsList = operations.map((operation) => ({
         label: operation.name,
         value: operation._id
     }));
-    const billsList = filteredBills.map((bill) => ({
+    const billsList = bills.map((bill) => ({
         label: bill.name,
         value: bill._id
     }));
-    const categoriesList = filteredCategories.map((category) => ({
+    const categoriesList = categories.map((category) => ({
         label: category.name,
         value: category._id
     }));
@@ -51,8 +41,7 @@ const EditOperationForm = () => {
         commentary: "",
         date: "",
         name: "",
-        _id: "",
-        userId: currentUserId
+        _id: ""
     });
 
     useEffect(() => {

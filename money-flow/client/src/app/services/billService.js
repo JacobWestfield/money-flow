@@ -16,7 +16,7 @@ const billService = {
     },
     create: async (payload) => {
         const { data } = await httpService.post(
-            billEndpoint + payload._id,
+            billEndpoint + "createBill",
             payload
         );
         return data;

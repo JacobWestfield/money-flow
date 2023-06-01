@@ -8,15 +8,15 @@ const operationService = {
         return data;
     },
     update: async (payload) => {
-        const { data } = await httpService.put(
+        const { data } = await httpService.patch(
             operationEndpoint + payload._id,
             payload
         );
         return data;
     },
     create: async (payload) => {
-        const { data } = await httpService.put(
-            operationEndpoint + payload._id,
+        const { data } = await httpService.post(
+            operationEndpoint + "createOperation",
             payload
         );
         return data;

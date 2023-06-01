@@ -8,9 +8,7 @@ router.delete("/:operationId", authMiddleware, async (req, res) => {
   try {
     const { operationId } = req.params;
     const user = await req.user;
-    console.log(user, operationId);
     const operation = await Operation.findById(operationId);
-    console.log(operation.userId.toString() === user._id);
     if (operation.userId.toString()) {
       const deletedOperation = await Operation.findByIdAndDelete(operationId);
       res.status(200).send({ data: deletedOperation });
@@ -94,9 +92,12 @@ router.patch("/:operationId", authMiddleware, async (req, res) => {
 router.get("/", authMiddleware, async (req, res) => {
   try {
     const user = await req.user;
-    const operations = await Operation.find({ userId: user._id });
-    console.log(user);
-    res.send({ data: operations });
+    if (user) {
+      const operations = await Operation.find({ userId: user._id });
+      res.send({ data: operations });
+    } else {
+      res.send({ data: [] });
+    }
   } catch (error) {
     res.status(500).json({
       message: "Server error occured. Try later",

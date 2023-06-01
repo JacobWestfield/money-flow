@@ -2,26 +2,20 @@ import React, { useState, useEffect } from "react";
 import { validator } from "../../../utils/validator";
 import TextField from "./textField";
 import { createBill } from "../../../redux/reducers/billsReducer";
-import { useDispatch, useSelector } from "react-redux";
-import { nanoid } from "@reduxjs/toolkit";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { getCurrentUserId } from "../../../redux/reducers/userReducer";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const NewBillForm = () => {
-    const history = useHistory();
     const dispatch = useDispatch();
-    const currentUserId = useSelector(getCurrentUserId());
+    const history = useHistory();
     const [data, setData] = useState({
         name: "",
-        type: "",
-        _id: "",
-        userId: currentUserId
+        type: ""
     });
     const [errors, setErrors] = useState({});
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
-            _id: nanoid(),
             [target.name]: target.value
         }));
     };
@@ -55,11 +49,11 @@ const NewBillForm = () => {
     };
     const isValid = Object.keys(errors).length === 0;
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        dispatch(createBill(data));
+        await dispatch(createBill(data));
         history.push("/");
     };
     return (

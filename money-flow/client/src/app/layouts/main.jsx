@@ -6,12 +6,10 @@ import { loadBills } from "../redux/reducers/billsReducer";
 import { loadCategories } from "../redux/reducers/categoriesReducer";
 import { loadOperations } from "../redux/reducers/operationsReducer";
 import AnalyticsBlock from "../components/ui/analyticsBlock";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import { getCurrentUserId } from "../redux/reducers/userReducer";
+import { Link } from "react-router-dom";
 
 const Main = () => {
     const dispatch = useDispatch();
-    const currentUserId = useSelector(getCurrentUserId());
 
     const operations = useSelector((state) => state.operation.entities);
     const bills = useSelector((state) => state.bill.entities);
@@ -19,14 +17,6 @@ const Main = () => {
     const operationsLoading = useSelector((state) => state.operation.loading);
     const billsLoading = useSelector((state) => state.bill.loading);
     const categoriesLoading = useSelector((state) => state.category.loading);
-
-    const filteredBills = bills.filter((bill) => bill.userId === currentUserId);
-    const filteredCategories = categories.filter(
-        (category) => category.userId === currentUserId
-    );
-    const filteredOperations = operations.filter(
-        (category) => category.userId === currentUserId
-    );
 
     useEffect(() => {
         dispatch(loadBills());
@@ -41,14 +31,10 @@ const Main = () => {
     return (
         <>
             <div className="container col-md-10 shadow p-4 ">
-                <h1 className="display-1 text-center">Money flow</h1>
-                <h3 className="mb-4 text-center">
-                    ReactJS, Redux Toolkit and Victory Library based Web
-                    Application for simple and easy money analytics
-                </h3>
+                <h1 className="display-1 text-center mb-4">Money flow</h1>
                 <div className="d-flex mb-4">
-                    <BillsBlock bills={filteredBills} />
-                    <CategoriesBlock categories={filteredCategories} />
+                    <BillsBlock bills={bills} />
+                    <CategoriesBlock categories={categories} />
                 </div>
                 <div className="d-flex flex-column align-content-center">
                     <div className="align-self-center">
@@ -60,9 +46,9 @@ const Main = () => {
                     </div>
 
                     <AnalyticsBlock
-                        bills={filteredBills}
-                        categories={filteredCategories}
-                        operations={filteredOperations}
+                        bills={bills}
+                        categories={categories}
+                        operations={operations}
                     />
                 </div>
             </div>

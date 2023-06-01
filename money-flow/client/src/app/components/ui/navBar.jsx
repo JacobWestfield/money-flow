@@ -3,13 +3,11 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
     getCurrentUserData,
-    getIsLoggedIn,
-    getUsersLoadingStatus
+    getIsLoggedIn
 } from "../../redux/reducers/userReducer";
 
 const NavBar = () => {
     const isLoggedIn = useSelector(getIsLoggedIn());
-    const loadingUsersStatus = useSelector(getUsersLoadingStatus());
     const user = useSelector(getCurrentUserData());
 
     return (
@@ -59,11 +57,7 @@ const NavBar = () => {
                 <div className="mt-4">
                     <h5>
                         You work as:{" "}
-                        {!isLoggedIn
-                            ? "Sign In to use this app"
-                            : loadingUsersStatus
-                            ? "Loading..."
-                            : user?.name}
+                        {!isLoggedIn ? "Sign In to use this app" : user?.name}
                     </h5>
                 </div>
             </div>

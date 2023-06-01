@@ -15,7 +15,7 @@ const billSlice = createSlice({
     initialState,
     reducers: {
         createdBill(state, action) {
-            state.entities.push(action.payload);
+            state.entities = [...state.entities, action.payload];
             toast("Счет успешно создан");
             state.loading = false;
         },
@@ -50,7 +50,6 @@ const billSlice = createSlice({
         },
         loadedBillError(state, action) {
             toast("Network Error. Try later");
-            console.log(action.payload);
             state.loading = false;
             state.errors = [...state.errors, action.payload];
         }
@@ -72,8 +71,8 @@ export const loadBills = () => async (dispatch, getState) => {
     if (isOutdated(lastFetch)) {
         dispatch(requestedBill());
         try {
-            const { content } = await billService.get();
-            dispatch(loadedBill(content));
+            const { data } = await billService.get();
+            dispatch(loadedBill(data));
         } catch (error) {
             dispatch(loadedBillError(error.message));
         }
@@ -101,7 +100,6 @@ export const updateBill = (data) => async (dispatch) => {
 };
 
 export const createBill = (data) => async (dispatch) => {
-    dispatch(requestedBill());
     try {
         await billService.create(data);
         dispatch(createdBill(data));

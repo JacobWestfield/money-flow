@@ -9,16 +9,11 @@ import {
     updateCategory
 } from "../../../redux/reducers/categoriesReducer";
 import { toast } from "react-toastify";
-import { getCurrentUserId } from "../../../redux/reducers/userReducer";
 
 const EditCategoryForm = () => {
-    const currentUserId = useSelector(getCurrentUserId());
     const dispatch = useDispatch();
     const categories = useSelector((state) => state.category.entities);
     const categoriesLoading = useSelector((state) => state.category.loading);
-    const filteredCategories = categories.filter(
-        (category) => category.userId === currentUserId
-    );
     const [data, setData] = useState({
         name: "",
         type: "",
@@ -32,7 +27,7 @@ const EditCategoryForm = () => {
         { value: "Income", label: "Доход" },
         { value: "Outcome", label: "Расход" }
     ];
-    const existingCategories = filteredCategories.map((category) => ({
+    const existingCategories = categories.map((category) => ({
         label: category.name,
         value: category._id
     }));

@@ -88,7 +88,6 @@ router.get("/", authMiddleware, async (req, res) => {
   try {
     const user = await req.user;
     const categories = await Category.find({ userId: user._id });
-    console.log(user);
     res.send({ data: categories });
   } catch (error) {
     res.status(500).json({

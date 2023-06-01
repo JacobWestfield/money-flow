@@ -65,8 +65,8 @@ export const {
 export const loadOperations = () => async (dispatch) => {
     dispatch(operationRequested());
     try {
-        const { content } = await operationService.get();
-        dispatch(operationLoaded(content));
+        const { data } = await operationService.get();
+        dispatch(operationLoaded(data));
     } catch (error) {
         dispatch(operationRequestedError(error.message));
     }

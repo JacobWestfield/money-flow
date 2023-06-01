@@ -7,9 +7,7 @@ const authMiddleware = require("../middlewares/auth.middleware");
 router.delete("/:billId", authMiddleware, async (req, res) => {
   try {
     const { billId } = req.params;
-    console.log(billId);
     const user = await req.user;
-    console.log(user);
     const bill = await Bill.findById(billId);
     if (bill.userId.toString() === user._id) {
       const deletedBill = await Bill.findByIdAndDelete(billId);
@@ -85,9 +83,12 @@ router.patch("/:billId", authMiddleware, async (req, res) => {
 router.get("/", authMiddleware, async (req, res) => {
   try {
     const user = await req.user;
-    const bills = await Bill.find({ userId: user._id });
-    console.log(user);
-    res.send({ data: bills });
+    if (user) {
+      const bills = await Bill.find({ userId: user._id });
+      res.send({ data: bills });
+    } else {
+      res.send({ data: [] });
+    }
   } catch (error) {
     res.status(500).json({
       message: "Server error occured. Try later",
