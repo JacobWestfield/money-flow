@@ -52,10 +52,8 @@ const usersSlice = createSlice({
             state.entities.push(action.payload);
         },
         userLoggedOut: (state) => {
-            state.entities = [];
             state.isLoggedIn = false;
             state.auth = null;
-            state.dataLoaded = false;
         },
         userUpdated: (state, action) => {
             console.log("update slice");
@@ -162,7 +160,7 @@ export const loadUsersList = () => async (dispatch, getState) => {
 
 export const getUsersList = () => (state) => state.user.entities;
 export const getCurrentUserData = () => (state) => {
-    return state.user.entities.length
+    return state.user.entities.length && state.user.auth
         ? state.user.entities.find((u) => u._id === state.user.auth.userId)
         : {};
 };

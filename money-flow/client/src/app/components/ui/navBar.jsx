@@ -9,7 +9,6 @@ import {
 import Loader from "../../HOC/loader";
 
 const NavBar = () => {
-    const users = useSelector((state) => state.user.entities);
     const isLoggedIn = useSelector(getIsLoggedIn());
     const user = useSelector(getCurrentUserData());
 
@@ -64,9 +63,9 @@ const NavBar = () => {
                             ""
                         )}
                     </ul>
-                    {users.length ? (
+                    {isLoggedIn ? (
                         <div className="mt-4 d-flex align-items-center">
-                            <h5>{"You work as: " + user.name}</h5>
+                            <h5>{"You work as: " + user?.name}</h5>
                             <button
                                 className="btn btn-primary ms-4"
                                 onClick={handleLogout}
