@@ -49,7 +49,6 @@ const billSlice = createSlice({
             }
         },
         loadedBillError(state, action) {
-            toast("Network Error. Try later");
             state.loading = false;
             state.errors = [...state.errors, action.payload];
         }
@@ -74,6 +73,7 @@ export const loadBills = () => async (dispatch, getState) => {
             const { data } = await billService.get();
             dispatch(loadedBill(data));
         } catch (error) {
+            toast("Network Error. Try later");
             dispatch(loadedBillError(error.message));
         }
     }
@@ -85,6 +85,7 @@ export const deleteBill = (id) => async (dispatch) => {
         await billService.delete(id);
         dispatch(deletedBill(id));
     } catch (error) {
+        toast("Network Error. Try later");
         dispatch(loadedBillError(error.message));
     }
 };
@@ -95,6 +96,7 @@ export const updateBill = (data) => async (dispatch) => {
         await billService.update(data);
         dispatch(updatedBill(data));
     } catch (error) {
+        toast("Network Error. Try later");
         dispatch(loadedBillError(error.message));
     }
 };
@@ -104,6 +106,7 @@ export const createBill = (data) => async (dispatch) => {
         await billService.create(data);
         dispatch(createdBill(data));
     } catch (error) {
+        toast("Network Error. Try later");
         dispatch(loadedBillError(error.message));
     }
 };

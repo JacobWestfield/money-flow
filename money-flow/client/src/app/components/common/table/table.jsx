@@ -5,7 +5,7 @@ import TableHeader from "./tableHeader";
 
 const Table = ({ onSort, selectedSort, columns, data, children }) => {
     return (
-        <table className="table table-dark">
+        <table className="table table-sm table-dark table-hover table-responsive">
             {children || (
                 <>
                     <TableHeader {...{ onSort, selectedSort, columns }} />

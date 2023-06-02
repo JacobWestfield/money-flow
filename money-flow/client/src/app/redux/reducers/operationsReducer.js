@@ -68,6 +68,7 @@ export const loadOperations = () => async (dispatch) => {
         const { data } = await operationService.get();
         dispatch(operationLoaded(data));
     } catch (error) {
+        toast("Network Error. Try later");
         dispatch(operationRequestedError(error.message));
     }
 };
@@ -78,6 +79,7 @@ export const deleteOperation = (id) => async (dispatch) => {
         await operationService.delete(id);
         dispatch(operationDeleted(id));
     } catch (error) {
+        toast("Network Error. Try later");
         dispatch(operationRequestedError(error.message));
     }
 };
@@ -92,6 +94,7 @@ export const updateOperation = (data) => async (dispatch, getState) => {
         await operationService.update(data);
         dispatch(operationUpdated(data));
     } catch (error) {
+        toast("Network Error. Try later");
         dispatch(operationRequestedError(error.message));
     }
 };
@@ -102,6 +105,7 @@ export const createOperation = (data) => async (dispatch) => {
         await operationService.create(data);
         dispatch(operationCreated(data));
     } catch (error) {
+        toast("Network Error. Try later");
         dispatch(operationRequestedError(error.message));
     }
 };

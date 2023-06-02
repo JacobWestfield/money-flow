@@ -68,7 +68,7 @@ const AnalyticsBlock = ({ operations, bills, categories }) => {
                 }}
                 size={9}
                 padding={100}
-                colorScale={["green", "red"]}
+                colorScale={["green", "yellow"]}
                 data={dataSet}
             />
         </>

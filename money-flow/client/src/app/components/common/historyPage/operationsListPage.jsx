@@ -69,7 +69,6 @@ const OperationsListPage = () => {
         setSelectedCategory(item);
     };
     const handleDateSelect = (item) => {
-        console.log(item);
         setSelectedDate(item);
     };
 
@@ -126,9 +125,9 @@ const OperationsListPage = () => {
         );
 
         return (
-            <div className="d-flex justify-content-center">
-                <div className="d-flex flex-column">
-                    <p className="text-center display-6">Фильтры</p>
+            <div className="d-flex justify-content-center flex-column">
+                <div className="d-flex mb-4">
+                    <p className="text-center me-4 display-6">Фильтры</p>
                     <div className="d-flex">
                         <div className="d-flex flex-column">
                             <p className="text-center">По счету</p>

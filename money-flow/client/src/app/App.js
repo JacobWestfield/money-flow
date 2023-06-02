@@ -2,14 +2,23 @@ import React, { useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import NavBar from "./components/ui/navBar";
 import LAYOUTS from "./layouts";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./components/common/protectedRoute";
-import { loadUsersList } from "./redux/reducers/userReducer";
+import { getIsLoggedIn, loadUsersList } from "./redux/reducers/userReducer";
+import { loadBills } from "./redux/reducers/billsReducer";
+import { loadCategories } from "./redux/reducers/categoriesReducer";
 function App() {
     const dispatch = useDispatch();
+    const isLoggedIn = useSelector(getIsLoggedIn());
+
     useEffect(() => {
+        if (isLoggedIn) {
+            dispatch(loadBills());
+            dispatch(loadCategories());
+            dispatch(loadCategories());
+        }
         dispatch(loadUsersList());
     }, []);
 

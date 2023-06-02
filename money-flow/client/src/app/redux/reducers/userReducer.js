@@ -52,7 +52,7 @@ const usersSlice = createSlice({
             state.entities.push(action.payload);
         },
         userLoggedOut: (state) => {
-            state.entities = null;
+            state.entities = [];
             state.isLoggedIn = false;
             state.auth = null;
             state.dataLoaded = false;
@@ -65,7 +65,6 @@ const usersSlice = createSlice({
             const userIndex = state.entities.findIndex(
                 (el) => el._id === action.payload._id
             );
-            console.log(user, userIndex);
             state.entities[userIndex] = user;
             state.isLoading = false;
         }
@@ -119,6 +118,7 @@ export const signUp =
         dispatch(authRequested());
         try {
             const data = await authService.register({ email, password, name });
+            console.log(data);
             localStorageService.setTokens(data);
             dispatch(authRequestSuccess({ userId: data.userId }));
             dispatch(
@@ -154,7 +154,6 @@ export const loadUsersList = () => async (dispatch, getState) => {
     dispatch(usersRequested());
     try {
         const data = await userService.get();
-        console.log(data);
         dispatch(usersReceived(data));
     } catch (error) {
         dispatch(usersRequestFailed(error.message));
@@ -163,12 +162,12 @@ export const loadUsersList = () => async (dispatch, getState) => {
 
 export const getUsersList = () => (state) => state.user.entities;
 export const getCurrentUserData = () => (state) => {
-    return state.user.entities
+    return state.user.entities.length
         ? state.user.entities.find((u) => u._id === state.user.auth.userId)
         : {};
 };
 export const getUserById = (userId) => (state) => {
-    if (state.user.entities) {
+    if (state.user.entities.length) {
         return state.user.entities.find((u) => u._id === userId);
     }
 };

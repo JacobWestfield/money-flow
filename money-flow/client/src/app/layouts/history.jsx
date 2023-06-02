@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const History = () => {
     return (
         <>
-            <div className="container col-md-10 offset-md-1 shadow p-4 d-flex flex-column">
+            <div className="container col-md-10  shadow p-4 d-flex flex-column">
                 <div className="d-flex justify-content-between">
                     <div>
                         <h1>История операций</h1>

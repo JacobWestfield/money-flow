@@ -2,6 +2,7 @@ import axios from "axios";
 import configFile from "../config.json";
 import localStorageService from "./localStorage.service";
 import authService from "./authService";
+import { toast } from "react-toastify";
 
 const http = axios.create({
     baseURL: configFile.apiEndpoint
@@ -66,6 +67,10 @@ http.interceptors.response.use(
         return res;
     },
     function (error) {
+        if (error.response.status === 401) {
+            toast("Unauthorized. Try to log in again");
+            return Promise.reject(error);
+        }
         const expectedErrors =
             error.response &&
             error.response.status >= 400 &&

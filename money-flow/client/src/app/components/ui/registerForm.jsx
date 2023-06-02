@@ -71,7 +71,7 @@ const RegisterForm = () => {
         const isValid = validate();
         if (!isValid) return;
         console.log(data);
-        dispatch(signUp(data));
+        await dispatch(signUp(data));
         history.push("/");
     };
 

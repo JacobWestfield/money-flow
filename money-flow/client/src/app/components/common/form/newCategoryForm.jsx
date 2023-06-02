@@ -4,8 +4,10 @@ import TextField from "./textField";
 import SelectField from "./selectField";
 import { useDispatch } from "react-redux";
 import { createCategory } from "../../../redux/reducers/categoriesReducer";
+import { useHistory } from "react-router-dom";
 
 const NewCategoryForm = () => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const [data, setData] = useState({
         name: "",
@@ -49,11 +51,12 @@ const NewCategoryForm = () => {
     };
     const isValid = Object.keys(errors).length === 0;
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        dispatch(createCategory(data));
+        await dispatch(createCategory(data));
+        history.push("/");
     };
     return (
         <>
