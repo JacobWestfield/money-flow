@@ -34,7 +34,7 @@ const TableBody = ({ data, columns }) => {
                 return (
                     <tr key={item._id}>
                         {Object.keys(columns).map((column) => (
-                            <td className={color} key={column}>
+                            <td className={color + " p-3"} key={column}>
                                 {renderContent(item, column)}
                             </td>
                         ))}

@@ -5,6 +5,7 @@ import Table from "../table/table";
 import Bill from "../table/bill";
 import Category from "../table/category";
 import DateComponent from "../table/date";
+import Commentary from "../table/commentary";
 
 const OperationsTable = ({
     operations,
@@ -34,7 +35,11 @@ const OperationsTable = ({
             component: (operation) => <DateComponent operation={operation} />
         },
         value: { path: "value", name: "Сумма" },
-        commentaty: { path: "commentary", name: "Комментарий" },
+        commentaty: {
+            path: "commentary",
+            name: "Комментарий",
+            component: (operation) => <Commentary operation={operation} />
+        },
         deleteButton: {
             name: "Удалить",
             component: (operation) => (
