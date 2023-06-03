@@ -3,13 +3,15 @@ import billReducer from "../reducers/billsReducer";
 import categoryReducer from "../reducers/categoriesReducer";
 import operationReducer from "../reducers/operationsReducer";
 import usersReducer from "../reducers/userReducer";
+import themeReducer from "../reducers/themeReducer";
 
 export const store = configureStore({
     reducer: {
         bill: billReducer,
         category: categoryReducer,
         operation: operationReducer,
-        user: usersReducer
+        user: usersReducer,
+        theme: themeReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
     devTools: process.env.NODE_ENV !== "production"

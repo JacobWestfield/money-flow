@@ -2,6 +2,7 @@ import { createAction, createSlice } from "@reduxjs/toolkit";
 import userService from "../../services/userService";
 import authService from "../../services/authService";
 import localStorageService from "../../services/localStorage.service";
+import { toast } from "react-toastify";
 
 const initialState = localStorageService.getAccessToken()
     ? {
@@ -56,7 +57,6 @@ const usersSlice = createSlice({
             state.auth = null;
         },
         userUpdated: (state, action) => {
-            console.log("update slice");
             const user = state.entities.find(
                 (el) => el._id === action.payload._id
             );
@@ -65,6 +65,7 @@ const usersSlice = createSlice({
             );
             state.entities[userIndex] = user;
             state.isLoading = false;
+            toast("Данные успешно изменены");
         }
     }
 });
@@ -82,11 +83,10 @@ const {
 } = actions;
 
 export const updateUserData = (user) => async (dispatch) => {
-    console.log("dispatch update");
     dispatch(usersRequested());
     try {
-        const { content } = await userService.update(user);
-        dispatch(userUpdated(content));
+        const data = await userService.update(user);
+        dispatch(userUpdated(data));
     } catch (error) {
         dispatch(authRequestFailed());
     }

@@ -6,8 +6,8 @@ const authMiddleware = require("../middlewares/auth.middleware");
 router.patch("/:userId", authMiddleware, async (req, res) => {
   try {
     const { userId } = req.params;
-
-    if (userId === req.user._id) {
+    const user = await req.user;
+    if (userId === user._id) {
       const updatedUser = await User.findByIdAndUpdate(userId, req.body, {
         new: true,
       });

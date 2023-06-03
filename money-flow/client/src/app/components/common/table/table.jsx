@@ -2,14 +2,24 @@ import React from "react";
 import PropTypes from "prop-types";
 import TableBody from "./tableBody";
 import TableHeader from "./tableHeader";
+import useTheme from "../../../hooks/themeHook";
 
 const Table = ({ onSort, selectedSort, columns, data, children }) => {
+    const [theme, toggleTheme] = useTheme();
+
     return (
-        <table className="table table-sm table-dark table-hover table-responsive">
+        <table
+            className={`table table-sm ${
+                theme === "dark" ? "table-dark" : "table-light"
+            } table-hover table-responsive`}
+        >
             {children || (
                 <>
                     <TableHeader {...{ onSort, selectedSort, columns }} />
                     <TableBody {...{ columns, data }} />
+                    <button className="btn btn-info mt-4" onClick={toggleTheme}>
+                        Сменить тему
+                    </button>
                 </>
             )}
         </table>

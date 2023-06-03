@@ -42,24 +42,28 @@ const Login = () => {
                             <>
                                 <h3 className="mb-4">Регистрация</h3>
                                 <RegisterForm />
-                                <p>
-                                    Already have account?{" "}
-                                    <a role="button" onClick={toggleFormType}>
-                                        {" "}
-                                        Sign In
-                                    </a>
+                                <p className="mt-4">
+                                    Уже есть учётная запись??{" "}
+                                    <button
+                                        className="btn ms-4 btn-primary"
+                                        onClick={toggleFormType}
+                                    >
+                                        Войти
+                                    </button>
                                 </p>
                             </>
                         ) : (
                             <>
                                 <h3 className="mb-4">Вход</h3>
                                 <LoginForm />
-                                <p>
-                                    Dont have account?{" "}
-                                    <a role="button" onClick={toggleFormType}>
-                                        {" "}
-                                        Sign Up
-                                    </a>
+                                <p className="mt-4">
+                                    Еще нет учётной записи?
+                                    <button
+                                        className="btn ms-4 btn-primary"
+                                        onClick={toggleFormType}
+                                    >
+                                        Создать
+                                    </button>{" "}
                                 </p>
                             </>
                         )}
