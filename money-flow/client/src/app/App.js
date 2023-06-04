@@ -23,26 +23,52 @@ function App() {
     }, []);
 
     return (
-        <div className="App">
-            <ToastContainer />
-            <NavBar />
-            <Switch>
-                <ProtectedRoute
-                    path="/operation/:type?"
-                    component={LAYOUTS.Operations}
-                />
-                <ProtectedRoute
-                    path="/category/:type?"
-                    component={LAYOUTS.Categories}
-                />
-                <ProtectedRoute path="/bill/:type?" component={LAYOUTS.Bills} />
+        <div className="App d-flex flex-column justify-content-between">
+            <div>
+                <ToastContainer />
+                <NavBar />
+                <Switch>
+                    <ProtectedRoute
+                        path="/operation/:type?"
+                        component={LAYOUTS.Operations}
+                    />
+                    <ProtectedRoute
+                        path="/category/:type?"
+                        component={LAYOUTS.Categories}
+                    />
+                    <ProtectedRoute
+                        path="/bill/:type?"
+                        component={LAYOUTS.Bills}
+                    />
 
-                <ProtectedRoute path="/history" component={LAYOUTS.History} />
-                <ProtectedRoute path="/settings" component={LAYOUTS.Settings} />
-                <Route path="/login/:type?" component={LAYOUTS.Login} />
-                <ProtectedRoute path="/" exact component={LAYOUTS.Main} />
-                <Redirect to="/" />
-            </Switch>
+                    <ProtectedRoute
+                        path="/history"
+                        component={LAYOUTS.History}
+                    />
+                    <ProtectedRoute
+                        path="/settings"
+                        component={LAYOUTS.Settings}
+                    />
+                    <Route path="/login/:type?" component={LAYOUTS.Login} />
+                    <ProtectedRoute path="/" exact component={LAYOUTS.Main} />
+                    <Redirect to="/" />
+                </Switch>
+            </div>
+            <div
+                style={{
+                    width: "100%",
+                    position: "fixed",
+                    height: "40px",
+                    bottom: "40px",
+                    textAlign: "center"
+                }}
+            >
+                <hr />
+                <footer>
+                    &copy;NickMan Solutions. Money Flow. All rights reserved.
+                    Support and bug report: zzultekk@gmail.com
+                </footer>
+            </div>
         </div>
     );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { VictoryPie, VictoryTheme } from "victory";
+import { VictoryPie } from "victory";
 import PropTypes from "prop-types";
 
 const AnalyticsBlock = ({ operations, bills, categories }) => {
@@ -58,16 +58,17 @@ const AnalyticsBlock = ({ operations, bills, categories }) => {
             <h1 className="display-5 mb-4 text-center">Статистика операций</h1>
 
             <VictoryPie
-                theme={VictoryTheme.material}
+                width="100"
+                height="100"
                 style={{
                     labels: {
-                        fontSize: 10,
+                        fontSize: 5,
                         fill: "#ffffff",
-                        padding: 0
+                        padding: 1
                     }
                 }}
                 size={9}
-                padding={100}
+                padding={20}
                 colorScale={["green", "yellow"]}
                 data={dataSet}
             />
