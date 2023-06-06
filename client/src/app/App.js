@@ -25,12 +25,7 @@ function App() {
     return (
         <div className="App">
             <div className="d-flex flex-column justify-content-between">
-                <ToastContainer
-                    limit="4"
-                    transition="zoom"
-                    position="bottom-right"
-                    theme="colored"
-                />
+                <ToastContainer position="bottom-right" theme="colored" />
                 <NavBar />
                 <Switch>
                     <ProtectedRoute

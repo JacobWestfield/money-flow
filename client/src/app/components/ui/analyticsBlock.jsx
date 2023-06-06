@@ -62,9 +62,9 @@ const AnalyticsBlock = ({ operations, bills, categories }) => {
                 height="100"
                 style={{
                     labels: {
-                        fontSize: 5,
-                        fill: "#0d6efd",
-                        padding: 1
+                        fontSize: 3,
+                        fill: "#000000",
+                        padding: -21
                     }
                 }}
                 size={9}
