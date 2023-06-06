@@ -95,7 +95,7 @@ const EditCategoryForm = () => {
                 <SelectField
                     label="Выберите категорию, которую хотите изменить"
                     name="_id"
-                    defaultOption=""
+                    defaultOption="Выберите категорию..."
                     options={existingCategories}
                     onChange={handleChange}
                     error={errors._id}

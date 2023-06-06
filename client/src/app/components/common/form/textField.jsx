@@ -18,6 +18,10 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
             <label htmlFor={name}>{label}</label>
             <div className="input-group has-validation">
                 <input
+                    style={{
+                        backgroundColor: "#aaabb8",
+                        borderColor: "#25274d"
+                    }}
                     type={showPassword ? "text" : type}
                     id={name}
                     name={name}

@@ -23,9 +23,14 @@ function App() {
     }, []);
 
     return (
-        <div className="App d-flex flex-column justify-content-between">
-            <div>
-                <ToastContainer />
+        <div className="App">
+            <div className="d-flex flex-column justify-content-between">
+                <ToastContainer
+                    limit="4"
+                    transition="zoom"
+                    position="bottom-right"
+                    theme="colored"
+                />
                 <NavBar />
                 <Switch>
                     <ProtectedRoute
@@ -57,9 +62,8 @@ function App() {
             <div
                 style={{
                     width: "100%",
-                    position: "fixed",
-                    height: "40px",
-                    bottom: "40px",
+                    height: "100px",
+                    marginTop: "40px",
                     textAlign: "center"
                 }}
             >

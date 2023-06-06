@@ -15,6 +15,10 @@ const RadioField = ({ options, name, onChange, value, label }) => {
                         className="form-check form-check-inline"
                     >
                         <input
+                            style={{
+                                backgroundColor: "#aaabb8",
+                                borderColor: "#25274d"
+                            }}
                             className="form-check-input"
                             type="radio"
                             name={name}

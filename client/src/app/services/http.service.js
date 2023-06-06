@@ -68,7 +68,7 @@ http.interceptors.response.use(
     },
     function (error) {
         if (error.response.status === 401) {
-            toast("Unauthorized. Try to log in again");
+            toast.error("Unauthorized. Try to log in again");
             return Promise.reject(error);
         }
         const expectedErrors =

@@ -17,7 +17,10 @@ const Table = ({ onSort, selectedSort, columns, data, children }) => {
                 <>
                     <TableHeader {...{ onSort, selectedSort, columns }} />
                     <TableBody {...{ columns, data }} />
-                    <button className="btn btn-info mt-4" onClick={toggleTheme}>
+                    <button
+                        className="btn btn-primary mt-4"
+                        onClick={toggleTheme}
+                    >
                         Сменить тему
                     </button>
                 </>

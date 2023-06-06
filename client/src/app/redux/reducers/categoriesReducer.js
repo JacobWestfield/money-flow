@@ -16,21 +16,21 @@ const categorySlice = createSlice({
     reducers: {
         categoryCreated(state, action) {
             state.entities.push(action.payload);
-            toast("Категория успешно создана");
+            toast.success("Категория успешно создана");
             state.loading = false;
         },
         categoryDeleted(state, action) {
             state.entities = state.entities.filter(
                 (el) => el._id !== action.payload
             );
-            toast("Категория успешно удалена");
+            toast.success("Категория успешно удалена");
             state.loading = false;
         },
         categoryUpdated(state, action) {
             const findIndex = (id) => {
                 return state.entities.findIndex((el) => el._id === id);
             };
-            toast("Категория успешно изменена");
+            toast.success("Категория успешно изменена");
             state.entities[findIndex(action.payload._id)] = {
                 ...action.payload
             };
@@ -73,7 +73,7 @@ export const loadCategories = () => async (dispatch, getState) => {
             const { data } = await categoryService.get();
             dispatch(categoryLoaded(data));
         } catch (error) {
-            toast("Network Error. Try later");
+            toast.error("Network Error. Try later");
             dispatch(categoryRequestedError(error.message));
         }
     }
@@ -85,7 +85,7 @@ export const deleteCategory = (id) => async (dispatch) => {
         await categoryService.delete(id);
         dispatch(categoryDeleted(id));
     } catch (error) {
-        toast("Network Error. Try later");
+        toast.error("Network Error. Try later");
         dispatch(categoryRequestedError(error.message));
     }
 };
@@ -96,7 +96,7 @@ export const updateCategory = (data) => async (dispatch) => {
         await categoryService.update(data);
         dispatch(categoryUpdated(data));
     } catch (error) {
-        toast("Network Error. Try later");
+        toast.error("Network Error. Try later");
         dispatch(categoryRequestedError(error.message));
     }
 };
@@ -107,7 +107,7 @@ export const createCategory = (data) => async (dispatch) => {
         await categoryService.create(data);
         dispatch(categoryCreated(data));
     } catch (error) {
-        toast("Network Error. Try later");
+        toast.error("Network Error. Try later");
         dispatch(categoryRequestedError(error.message));
     }
 };

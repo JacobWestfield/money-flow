@@ -95,7 +95,7 @@ const EditBillForm = () => {
                 <SelectField
                     label="Выберите счет для редактирования"
                     name="_id"
-                    defaultOption=""
+                    defaultOption="Выберите счет..."
                     options={billsList}
                     onChange={handleChange}
                 />

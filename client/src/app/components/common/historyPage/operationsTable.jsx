@@ -41,13 +41,12 @@ const OperationsTable = ({
             component: (operation) => <Commentary operation={operation} />
         },
         deleteButton: {
-            name: "Удалить",
             component: (operation) => (
                 <button
-                    className="btn btn-danger"
+                    className="btn btn-primary"
                     onClick={() => onDelete(operation)}
                 >
-                    Delete
+                    Удалить
                 </button>
             )
         }

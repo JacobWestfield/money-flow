@@ -16,21 +16,21 @@ const billSlice = createSlice({
     reducers: {
         createdBill(state, action) {
             state.entities = [...state.entities, action.payload];
-            toast("Счет успешно создан");
+            toast.success("Счет успешно создан");
             state.loading = false;
         },
         deletedBill(state, action) {
             state.entities = state.entities.filter(
                 (el) => el._id !== action.payload
             );
-            toast("Счет успешно удален");
+            toast.success("Счет успешно удален");
             state.loading = false;
         },
         updatedBill(state, action) {
             const findIndex = (id) => {
                 return state.entities.findIndex((el) => el._id === id);
             };
-            toast("Счет успешно изменен");
+            toast.success("Счет успешно изменен");
             state.entities[findIndex(action.payload._id)] = {
                 ...action.payload
             };
@@ -73,7 +73,7 @@ export const loadBills = () => async (dispatch, getState) => {
             const { data } = await billService.get();
             dispatch(loadedBill(data));
         } catch (error) {
-            toast("Network Error. Try later");
+            toast.error("Network Error. Try later");
             dispatch(loadedBillError(error.message));
         }
     }
@@ -85,7 +85,7 @@ export const deleteBill = (id) => async (dispatch) => {
         await billService.delete(id);
         dispatch(deletedBill(id));
     } catch (error) {
-        toast("Network Error. Try later");
+        toast.error("Network Error. Try later");
         dispatch(loadedBillError(error.message));
     }
 };
@@ -96,7 +96,7 @@ export const updateBill = (data) => async (dispatch) => {
         await billService.update(data);
         dispatch(updatedBill(data));
     } catch (error) {
-        toast("Network Error. Try later");
+        toast.error("Network Error. Try later");
         dispatch(loadedBillError(error.message));
     }
 };
@@ -106,7 +106,7 @@ export const createBill = (data) => async (dispatch) => {
         await billService.create(data);
         dispatch(createdBill(data));
     } catch (error) {
-        toast("Network Error. Try later");
+        toast.error("Network Error. Try later");
         dispatch(loadedBillError(error.message));
     }
 };

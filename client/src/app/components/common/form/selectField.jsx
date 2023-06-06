@@ -28,6 +28,10 @@ const SelectField = ({
                 {label}
             </label>
             <select
+                style={{
+                    backgroundColor: "#aaabb8",
+                    borderColor: "#25274d"
+                }}
                 className={getInputClasses()}
                 id={name}
                 name={name}

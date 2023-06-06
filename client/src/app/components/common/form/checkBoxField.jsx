@@ -11,6 +11,10 @@ const CheckBoxField = ({ name, value, onChange, children, error }) => {
     return (
         <div className="form-check mb-4">
             <input
+                style={{
+                    backgroundColor: "#aaabb8",
+                    borderColor: "#25274d"
+                }}
                 className={getInputClasses()}
                 type="checkbox"
                 value=""

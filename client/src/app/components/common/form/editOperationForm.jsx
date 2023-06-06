@@ -120,7 +120,7 @@ const EditOperationForm = () => {
                 <SelectField
                     label="Выберите операцию"
                     name="_id"
-                    defaultOption=""
+                    defaultOption="Выберите операцию..."
                     options={operationsList}
                     onChange={handleChange}
                     error={errors.operation}

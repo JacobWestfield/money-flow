@@ -65,7 +65,7 @@ const usersSlice = createSlice({
             );
             state.entities[userIndex] = user;
             state.isLoading = false;
-            toast("Данные успешно изменены");
+            toast.success("Данные успешно изменены");
         }
     }
 });

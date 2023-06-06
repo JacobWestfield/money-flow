@@ -14,14 +14,14 @@ const operationSlice = createSlice({
     reducers: {
         operationCreated(state, action) {
             state.entities.push(action.payload);
-            toast("Операция успешно создана");
+            toast.success("Операция успешно создана");
             state.loading = false;
         },
         operationDeleted(state, action) {
             state.entities = state.entities.filter(
                 (el) => el._id !== action.payload
             );
-            toast("Операция успешно удалена");
+            toast.success("Операция успешно удалена");
             state.loading = false;
         },
         operationUpdated(state, action) {
@@ -32,7 +32,7 @@ const operationSlice = createSlice({
                 ...action.payload
             };
             state.loading = false;
-            toast("Операция успешно изменена");
+            toast.success("Операция успешно изменена");
         },
         operationRequested(state) {
             state.loading = true;
@@ -68,7 +68,7 @@ export const loadOperations = () => async (dispatch) => {
         const { data } = await operationService.get();
         dispatch(operationLoaded(data));
     } catch (error) {
-        toast("Network Error. Try later");
+        toast.error("Network Error. Try later");
         dispatch(operationRequestedError(error.message));
     }
 };
@@ -79,7 +79,7 @@ export const deleteOperation = (id) => async (dispatch) => {
         await operationService.delete(id);
         dispatch(operationDeleted(id));
     } catch (error) {
-        toast("Network Error. Try later");
+        toast.error("Network Error. Try later");
         dispatch(operationRequestedError(error.message));
     }
 };
@@ -94,7 +94,7 @@ export const updateOperation = (data) => async (dispatch, getState) => {
         await operationService.update(data);
         dispatch(operationUpdated(data));
     } catch (error) {
-        toast("Network Error. Try later");
+        toast.error("Network Error. Try later");
         dispatch(operationRequestedError(error.message));
     }
 };
@@ -105,7 +105,7 @@ export const createOperation = (data) => async (dispatch) => {
         await operationService.create(data);
         dispatch(operationCreated(data));
     } catch (error) {
-        toast("Network Error. Try later");
+        toast.error("Network Error. Try later");
         dispatch(operationRequestedError(error.message));
     }
 };
